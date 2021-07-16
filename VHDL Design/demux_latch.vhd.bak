@@ -1,0 +1,28 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity demux_latch is
+    Port ( D   : in std_logic_vector(7 downto 0);
+	        Clk : in  STD_LOGIC;
+           Sel  : in  std_logic_vector(7 downto 0);
+           QX  : out std_logic_vector(7 downto 0);
+			  QY  : out std_logic_vector(7 downto 0);
+			  QZ  : out std_logic_vector(7 downto 0));
+			  
+end demux_latch;
+
+architecture Behavioral of demux_latch is
+	 signal XD : std_logic_vector(7 downto 0);
+	 signal YD : std_logic_vector(7 downto 0);
+	 signal ZD : std_logic_vector(7 downto 0); 
+	 
+begin
+
+    XD <= D when ((Sel = '00000001') and (falling_edge(clk)) else XD;
+    QX <= XD;
+	 YD <= D when ((Sel = '00000010') and (falling_edge(clk)) else YD;
+    QY <= YD;
+	 ZD <= D when ((Sel = '00000011') and (falling_edge(clk)) else ZD;
+    QZ <= ZD;
+
+end Behavioral;

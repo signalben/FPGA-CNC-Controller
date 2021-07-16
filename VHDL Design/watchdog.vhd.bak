@@ -1,0 +1,32 @@
+
+library ieee;
+    use ieee.std_logic_1164.all;
+    use ieee.std_logic_unsigned.all;
+
+entity watchdog is
+    port (
+		  Sel  : in  std_logic_vector(7 downto 0);
+        clk    :in  std_logic                      -- Input clock
+		  SV    :in  std_logic
+		  Enable    :out  std_logic  
+    );
+end entity;
+
+architecture rtl of watchdog is
+
+	     signal count : integer range 0 to 10000;
+	 
+begin
+    process (clk) begin
+        if (sv = '1') then
+            count <= (others=>'0');
+        elsif (falling_edge(clk)) and (count /= 10000 ) then
+                count <= count + 1;
+            end if;
+				
+				if (count = 10000) then Enable = '0' else '1';
+				end if;
+				
+    end process;
+    cout <= count;
+end architecture;

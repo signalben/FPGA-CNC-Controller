@@ -1,0 +1,92 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 16 16 176 160)
+	(text "selector" (rect 5 0 35 12)(font "Arial" ))
+	(text "inst" (rect 8 128 20 140)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "Sel[7..0]" (rect 0 0 31 12)(font "Arial" ))
+		(text "Sel[7..0]" (rect 21 27 52 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "DataIn[7..0]" (rect 0 0 46 12)(font "Arial" ))
+		(text "DataIn[7..0]" (rect 21 43 67 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "Clk" (rect 0 0 12 12)(font "Arial" ))
+		(text "Clk" (rect 21 59 33 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 1))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "XR" (rect 0 0 14 12)(font "Arial" ))
+		(text "XR" (rect 125 27 139 39)(font "Arial" ))
+		(line (pt 160 32)(pt 144 32)(line_width 1))
+	)
+	(port
+		(pt 160 48)
+		(output)
+		(text "YR" (rect 0 0 15 12)(font "Arial" ))
+		(text "YR" (rect 124 43 139 55)(font "Arial" ))
+		(line (pt 160 48)(pt 144 48)(line_width 1))
+	)
+	(port
+		(pt 160 64)
+		(output)
+		(text "ZR" (rect 0 0 15 12)(font "Arial" ))
+		(text "ZR" (rect 124 59 139 71)(font "Arial" ))
+		(line (pt 160 64)(pt 144 64)(line_width 1))
+	)
+	(port
+		(pt 160 80)
+		(output)
+		(text "XP" (rect 0 0 11 12)(font "Arial" ))
+		(text "XP" (rect 128 75 139 87)(font "Arial" ))
+		(line (pt 160 80)(pt 144 80)(line_width 1))
+	)
+	(port
+		(pt 160 96)
+		(output)
+		(text "YP" (rect 0 0 12 12)(font "Arial" ))
+		(text "YP" (rect 127 91 139 103)(font "Arial" ))
+		(line (pt 160 96)(pt 144 96)(line_width 1))
+	)
+	(port
+		(pt 160 112)
+		(output)
+		(text "ZP" (rect 0 0 12 12)(font "Arial" ))
+		(text "ZP" (rect 127 107 139 119)(font "Arial" ))
+		(line (pt 160 112)(pt 144 112)(line_width 1))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 128)(line_width 1))
+	)
+)

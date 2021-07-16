@@ -1,0 +1,93 @@
+
+library ieee;
+    use ieee.std_logic_1164.all;
+    use ieee.std_logic_unsigned.all;
+
+
+
+
+
+
+ENTITY QuadFSM is
+PORT (clock:    IN STD_LOGIC;
+      P:        in std_logic_vector (1 downto 0);
+      reset:    IN STD_LOGIC;
+		cout    :out std_logic_vector (19 downto 0);-- Output of the counter
+END SimpleFSM;
+
+
+
+
+
+
+-- Architecture definition for the SimpleFSM entity
+Architecture RTL of QuadFSM is
+TYPE State_type IS (A, B, C, D);  -- Define the states
+	SIGNAL State : State_Type;    -- Create a signal that uses 
+							      -- the different states
+signal count :std_logic_vector (19 downto 0);
+									
+BEGIN 
+  PROCESS (P, reset) 
+  BEGIN 
+    If (reset = ‘1’) THEN            -- Upon reset, set count to 0
+	 count <= (others=>'0');
+ 
+ 
+	-- The CASE statement checks the value of the State variable,
+	-- and based on the value and any other control signals, changes
+	-- to a new state.
+	CASE State IS
+ 
+
+		WHEN A => 
+			IF P='10' THEN 
+				State <= B;
+				count <= count + 1; 
+		ELSIF P='01' THEN 
+				State <= D;
+				count <= count - 1; 
+			END IF; 
+ 
+
+		WHEN B => 
+			IF P='11' THEN 
+				State <= C;
+				count <= count + 1;
+		ELSIF P='00' THEN 
+				State <= A;
+				count <= count - 1; 	
+			END IF; 
+ 
+
+		WHEN C => 
+			IF P='01' THEN 
+				State <= D;
+				count <= count + 1;
+		ELSIF P='10' THEN 
+				State <= B;
+				count <= count - 1; 	
+			END IF; 
+ 
+
+		WHEN D=> 
+			IF P='00' THEN 
+				State <= A;
+				count <= count + 1;
+		ELSIF P='11' THEN 
+				State <= C;
+				count <= count - 1; 	
+			END IF;	
+	
+			ELSE 
+				State <= A; 
+			END IF; 
+		WHEN others =>
+			State <= A;
+	END CASE; 
+    END IF; 
+  END PROCESS;
+
+-- Decode the current state to create the output
+cout <= count;
+END rtl;
