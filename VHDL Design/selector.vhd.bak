@@ -1,0 +1,18 @@
+entity selector is
+port(
+   Sel    : in std_logic_vector(7 downto 0);
+   Clk    : in std_logic);
+	XV     : out std_logic);
+	YV     : out std_logic);
+   ZV     : out std_logic);
+	
+end selector;
+architecture selector of selector is
+
+
+begin
+  XV <= Clk when Sel = "00000001" else XV <= "0";
+  YV <= Clk when Sel = "00000010" else YV <= "0";
+  ZV <= Clk when Sel = "00000011" else ZV <= "0";
+  
+end selector;

@@ -1,0 +1,16 @@
+Info: Using NativeLink to launch synthesis Tool
+Error: Can't open Synplify parts mapping file lib/altera/realpart.txt from Synplify installation
+Error: Can't launch the Synplify software -- the path to the location of the executables for the Synplify software not specified.
+Error: You can specify the path to the executable in the EDA Tool Options page of the Options dialog box or using the Tcl command set_user_option.
+Error: Encountered error while running NativeLink synthesis script
+Error: NativeLink flow failed to complete synthesis
+
+================The following information is provided to Debug NativeLink Script=================
+Nativelink TCL script failed with errorCode:  NONE
+Nativelink TCL script failed with errorInfo:  
+    while executing
+"error ""  """
+    (procedure "launch_synplify" line 54)
+    invoked from within
+"launch_synplify synplify "
+PATH Environment Variable is set to :  d:\quartus\bin64\;d:\quartus\bin64\;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;F:\altera\modelsim_ase\win32aloem;C:\altera\13.1\modelsim_ase\win32aloem
