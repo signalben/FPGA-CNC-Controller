@@ -1,0 +1,103 @@
+loadrt trivkins
+loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[TRAJ]AXES
+
+#loadrt motmod base_period_nsec=100000 servo_period_nsec=1000000 num_joints=3
+
+# components
+loadrt servoctrl 
+#loadrt threads name1=servo-thread period1=1000000 
+loadrt sum2 count=6 
+loadrt mult2 count=4
+loadrt at_pid 
+# signals
+# nets
+#x out
+
+
+net ctrl-xout-mm axis.0.motor-pos-cmd => mult2.0.in0
+net ctrl-xout-ep mult2.0.out => sum2.2.in0
+net ctrl-xout-offset sum2.2.out => pid.0.command
+net s-xvel-cmd pid.0.output => sum2.0.in0
+net xvel-cmd sum2.0.out => servoctrl.0.zvelcmd
+
+#x in
+net x-fb-ep servoctrl.0.zposfb => sum2.4.in0 
+net x-fb-ep servoctrl.0.zposfb => pid.0.feedback
+net x-fb-epoff sum2.4.out => mult2.2.in0
+net ctrl-xin-mm mult2.2.out => axis.0.motor-pos-fb
+
+#y out
+net ctrl-yout-mm axis.1.motor-pos-cmd => mult2.1.in0
+net ctrl-yout-ep mult2.1.out => sum2.3.in0
+net ctrl-yout-offset sum2.3.out => pid.1.command
+net s-yvel-cmd pid.1.output => sum2.1.in0
+net yvel-cmd sum2.1.out => servoctrl.0.yvelcmd
+
+#y in
+net y-fb-ep servoctrl.0.yposfb =>  sum2.5.in0
+net y-fb-ep servoctrl.0.yposfb => pid.1.feedback
+net y-fb-epoff sum2.5.out => mult2.3.in0
+net ctrl-yin-mm mult2.3.out => axis.1.motor-pos-fb 
+
+# parameter values
+setp sum2.0.in1 127
+setp sum2.1.in1 127
+setp sum2.2.in1 524287
+setp sum2.3.in1 524287
+setp sum2.4.in1 -524287
+setp sum2.5.in1 -524287
+setp mult2.0.in1 -1598
+setp mult2.1.in1 1598
+setp mult2.2.in1 -0.000625782228
+setp mult2.3.in1 0.000625782228
+
+#setp pid.0.Pgain 1.64
+#setp pid.0.Dgain 0.002
+#setp pid.0.Igain 298
+#setp pid.1.Pgain 0.903
+#setp pid.1.Dgain 0.0011
+#setp pid.1.Igain 178
+
+setp pid.0.Pgain 1
+setp pid.0.Dgain 0
+setp pid.0.Igain 0
+setp pid.1.Pgain 1
+setp pid.1.Dgain 0
+setp pid.1.Igain 0
+
+setp iocontrol.0.emc-enable-in TRUE
+setp pid.0.enable TRUE
+setp pid.1.enable TRUE
+
+setp pid.0.deadband 0.6
+setp pid.1.deadband 0.6
+
+
+# realtime thread/function links
+addf motion-command-handler servo-thread
+addf motion-controller servo-thread
+addf servoctrl.0 servo-thread
+addf pid.0.do-pid-calcs servo-thread
+addf pid.1.do-pid-calcs servo-thread
+addf sum2.0 servo-thread
+addf sum2.1 servo-thread
+addf sum2.2 servo-thread
+addf sum2.3 servo-thread
+addf sum2.4 servo-thread
+addf sum2.5 servo-thread
+addf mult2.0 servo-thread
+addf mult2.1 servo-thread
+addf mult2.2 servo-thread
+addf mult2.3 servo-thread
+
+loadusr -W hal_manualtoolchange
+net tool-change iocontrol.0.tool-change => hal_manualtoolchange.change
+net tool-changed iocontrol.0.tool-changed <= hal_manualtoolchange.changed
+net tool-number iocontrol.0.tool-prep-number => hal_manualtoolchange.number
+net tool-prepare-loopback iocontrol.0.tool-prepare => iocontrol.0.tool-prepared
+
+
+ 
+
+
+

@@ -1,0 +1,144 @@
+
+component servoctrl;
+
+pin in float xvelcmd;
+pin in float yvelcmd;
+pin in float zvelcmd;
+
+pin out float xposfb;
+pin out float yposfb;
+pin out float zposfb;
+
+pin in bit power_chkbtn;
+pin in bit enable_chkbtn;
+pin in bit shutdown;
+
+function _;
+license "GPL";
+;;
+
+#include "stdbool.h"
+#include <rtapi_math.h>
+#include "rtapi.h"
+#include <rtapi_io.h>
+#include <asm/io.h>
+#define BASEPORT 0x378 
+
+int wait = 0;
+int ready = 1;
+int reset = 15;
+
+int sxvel;
+int syvel;
+int szvel;
+int szcmd;
+
+u32 xpos0;
+u32 xpos1;
+u32 xpos2;
+u32 xpos3;
+
+u32 ypos0;
+u32 ypos1;
+u32 ypos2;
+u32 ypos3;
+
+u32 zpos0;
+u32 zpos1;
+u32 zpos2;
+u32 zpos3;
+
+
+FUNCTION(_) {
+
+sxvel = (int)xvelcmd;
+syvel = (int)yvelcmd;
+szvel = (int)zvelcmd;
+
+
+if    (shutdown == true) { szcmd = 0; }
+    else if ((enable_chkbtn == true)&(power_chkbtn == true)) { szcmd = 248; }
+    else if (power_chkbtn == true) {szcmd = 240;}
+    else {szcmd = 0;}
+  
+  outb(reset, BASEPORT+2);
+
+  outb(sxvel, BASEPORT);
+  outb(wait, BASEPORT+2);
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);
+
+  outb(syvel, BASEPORT);
+  outb(ready, BASEPORT+2); //2
+  outb(wait, BASEPORT+2);
+
+  outb(szvel, BASEPORT);
+  outb(ready, BASEPORT+2); //3
+  outb(wait, BASEPORT+2); //4
+  outb(szcmd, BASEPORT);
+
+  xpos0 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//5
+
+  xpos1 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//6
+
+  xpos2 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//7
+
+  xpos3 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//8
+
+  ypos0 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//9
+
+  ypos1 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//10
+
+  ypos2 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//11
+
+  ypos3 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//12
+
+  zpos0 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//13
+
+  zpos1 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//14
+
+  zpos2 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//15
+
+  zpos3 = inb(BASEPORT + 1)/8;
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//16
+
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//17
+
+  outb(ready, BASEPORT+2);
+  outb(wait, BASEPORT+2);//18
+
+  outb(0, BASEPORT);
+
+  xposfb = (xpos0<<15)+(xpos1<<10)+(xpos2<<5)+(xpos3);
+  yposfb = (ypos0<<15)+(ypos1<<10)+(ypos2<<5)+(ypos3);
+  zposfb = (zpos0<<15)+(zpos1<<10)+(zpos2<<5)+(zpos3);
+}
+
+
+
